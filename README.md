@@ -143,3 +143,10 @@ Read [e2e setup instructions](./e2e/README.md).
 - [2018 aka Bowser](https://github.com/infinitered/ignite-bowser)
 - [2017 aka Andross](https://github.com/infinitered/ignite-andross)
 - [2016 aka Ignite 1.0](https://github.com/infinitered/ignite-ir-boilerplate-2016)
+
+## Troubleshooting
+### Issues with `yarn android`
+Using Gradle 7 fixes some issue but this requires JDK 16 which is not yet supported by expo.
+--> Use a JDK below 16
+### Issues with Reactotron
+If you cannot connect to Reactotron run `yarn adb` first and reload the application.
