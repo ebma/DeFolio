@@ -94,7 +94,7 @@ const platformCommand = Platform.select({
 })
 
 export const DemoScreen: FC<StackScreenProps<NavigatorParamList, "demo">> = observer(
-  ({ navigation }) => {
+  ({ navigation}) => {
     const goBack = () => navigation.goBack()
 
     const demoReactotron = React.useMemo(

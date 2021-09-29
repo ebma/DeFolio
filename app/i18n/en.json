@@ -2,6 +2,7 @@
   "common": {
     "ok": "OK!",
     "cancel": "Cancel",
+    "close": "Close",
     "back": "Back"
   },
   "errors": {
