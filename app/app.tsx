@@ -9,16 +9,18 @@
  * The app navigation resides in ./app/navigators, so head over there
  * if you're interested in adding screens and navigators.
  */
-import "./i18n"
-import "./utils/ignore-warnings"
-import React, { useState, useEffect } from "react"
-import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context"
-import { initFonts } from "./theme/fonts" // expo
-import * as storage from "./utils/storage"
-import { useBackButtonHandler, AppNavigator, canExit, useNavigationPersistence } from "./navigators"
-import { RootStore, RootStoreProvider, setupRootStore } from "./models"
+import React, { useEffect, useState } from "react"
+import { initialWindowMetrics, SafeAreaProvider } from "react-native-safe-area-context"
+import Toast from "react-native-toast-message"
 import { ToggleStorybook } from "../storybook/toggle-storybook"
+import "./i18n"
+import { RootStore, RootStoreProvider, setupRootStore } from "./models"
+import { AppNavigator, canExit, useBackButtonHandler, useNavigationPersistence } from "./navigators"
 import { ErrorBoundary } from "./screens/error/error-boundary"
+import { initFonts } from "./theme/fonts" // expo
+import "./utils/ignore-warnings"
+import { registerErrorHandler } from "./utils/logger"
+import * as storage from "./utils/storage"
 
 // This puts screens in a native ViewController or Activity. If you want fully native
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
@@ -44,6 +46,16 @@ function App() {
     ;(async () => {
       await initFonts() // expo
       setupRootStore().then(setRootStore)
+
+      const toastErrorHandler = (error: any) => {
+        if (typeof error === "string") {
+          Toast.show({ type: "error", text1: error })
+        } else if (error.message) {
+          Toast.show({ type: "error", text1: error?.message })
+        }
+      }
+
+      registerErrorHandler(toastErrorHandler)
     })()
   }, [])
 
@@ -65,6 +77,7 @@ function App() {
               initialState={initialNavigationState}
               onStateChange={onNavigationStateChange}
             />
+            <Toast ref={(ref) => Toast.setRef(ref)} position="bottom" />
           </ErrorBoundary>
         </SafeAreaProvider>
       </RootStoreProvider>
